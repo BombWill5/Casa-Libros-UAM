@@ -2,7 +2,7 @@
 include 'db_connect.php';
 
 // Verificar que todos los campos requeridos están presentes
-if (isset($_POST['idEditorial'], $_POST['titulo'], $_POST['detalles'], $_POST['precio'], $_POST['anio'], $_POST['edicion'], $_POST['tipo'], $_POST['autor'])) {
+if (isset($_POST['idEditorial'], $_POST['titulo'], $_POST['detalles'], $_POST['precio'], $_POST['anio'], $_POST['edicion'], $_POST['tipo'], $_POST['autor'], $_POST['unidad'])) {
     $idEditorial = $_POST['idEditorial'];
     $titulo = $_POST['titulo'];
     $detalles = $_POST['detalles'];
@@ -11,6 +11,7 @@ if (isset($_POST['idEditorial'], $_POST['titulo'], $_POST['detalles'], $_POST['p
     $edicion = $_POST['edicion'];
     $tipo = $_POST['tipo'];
     $autor = $_POST['autor'];
+    $unidad = $_POST['unidad']; // Nueva variable para la unidad
 
     // Iniciar transacción
     $conn->begin_transaction();
@@ -29,6 +30,10 @@ if (isset($_POST['idEditorial'], $_POST['titulo'], $_POST['detalles'], $_POST['p
         // Insertar en la tabla autorlibro
         $sql_autorlibro = "INSERT INTO autorlibro (idAutor, idLibro) VALUES ('$idAutor', '$idLibro')";
         $conn->query($sql_autorlibro);
+
+        // Insertar en la tabla unidadlibro
+        $sql_unidadlibro = "INSERT INTO unidadlibro (idLibro, idUnidad) VALUES ('$idLibro', '$unidad')";
+        $conn->query($sql_unidadlibro);
 
         // Confirmar transacción
         $conn->commit();
